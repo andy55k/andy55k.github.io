@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unsere kleine Kämpferin ♡</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#faf9f5;color:#455347;font-family:Arial,sans-serif}
+header{text-align:center;background:#eaf0e8;padding:45px 20px}
+.hero{font-size:55px}
+h1{font-family:Georgia,serif;font-size:clamp(30px,7vw,45px);font-weight:normal;color:#526b57}
+header p{line-height:1.7;max-width:550px;margin:auto}
+main{max-width:950px;margin:auto;padding:25px 16px}
+h2{text-align:center;font-family:Georgia,serif;font-weight:normal;color:#526b57}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:white;border:1px solid #e5eae3;border-radius:15px;overflow:hidden}
+.picture{background:#edf2eb;padding:28px;text-align:center;font-size:48px}
+.content{padding:17px}
+.content h3{color:#526b57;margin:5px 0}
+.price{color:#879087}
+button,.link{display:block;width:100%;border:0;border-radius:8px;background:#819780;color:white;padding:12px;margin-top:9px;text-align:center;text-decoration:none;cursor:pointer}
+.status{font-size:12px;color:#627b61}
+footer{text-align:center;background:#eaf0e8;padding:35px;margin-top:35px}
+</style>
+</head>
+<body>
+<header>
+<div class="hero">🌿 🧸 ♡</div>
+<h1>Unsere kleine Kämpferin</h1>
+<p>Ein kleines Wunder, ganz großes Glück.<br>
+Wie schön, dass du hier bist! Wir haben einige Herzenswünsche für unsere kleine Prinzessin gesammelt.</p>
+</header>
+<main>
+<h2>Unsere Geschenkideen</h2>
+<p style="text-align:center">Mit Liebe ausgesucht – vielleicht ist etwas für dich dabei. ♡</p>
+<div class="grid" id="gifts"></div>
+</main>
+<footer>
+<h2>Von Herzen danke! ♡</h2>
+<p>Das größte Geschenk ist, dass du Teil unserer kleinen Geschichte bist.</p>
+</footer>
+<script>
+const gifts=[
+{name:"Kuscheldecke",category:"Kleidung",price:"29,90 €",emoji:"☁️",url:"https://www.amazon.de/s?k=baby+kuscheldecke"},
+{name:"Babynest",category:"Schlafen",price:"69,90 €",emoji:"🧸",url:"https://www.amazon.de/s?k=babynest+baby"},
+{name:"Spielbogen",category:"Spielen",price:"49,90 €",emoji:"🌿",url:"https://www.amazon.de/s?k=baby+spielbogen"},
+{name:"Wickeltasche",category:"Pflege",price:"59,90 €",emoji:"👜",url:"https://www.amazon.de/s?k=wickeltasche+baby"},
+{name:"Babybett",category:"Kinderzimmer",price:"199,00 €",emoji:"🛏️",url:"https://www.ikea.com/de/de/"},
+{name:"Kinderwagen",category:"Unterwegs",price:"399,00 €",emoji:"🚼",url:"https://www.babyone.de/"}
+];
+let reserved=JSON.parse(localStorage.getItem("babyReserved")||"[]");
+function render(){
+document.getElementById("gifts").innerHTML=gifts.map((g,i)=>`
+<article class="card">
+<div class="picture">${g.emoji}</div>
+<div class="content">
+<small>${g.category}</small>
+<h3>${g.name}</h3>
+<div class="price">${g.price}</div>
+<p class="status">${reserved.includes(i)?"♡ Reserviert":"♡ Noch frei"}</p>
+<a class="link" href="${g.url}" target="_blank" rel="noopener">Produkt ansehen ↗</a>
+${reserved.includes(i)?"":`<button onclick="reserve(${i})">Geschenk reservieren</button>`}
+</div></article>`).join("");
+}
+function reserve(i){
+if(!confirm("Möchtest du dieses Geschenk reservieren?"))return;
+reserved.push(i);
+localStorage.setItem("babyReserved",JSON.stringify(reserved));
+render();
+alert("Vielen Dank für deine Reservierung! ♡");
+}
+render();
+</script>
+</body>
+</html>
