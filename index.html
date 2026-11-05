@@ -1,28 +1,35 @@
 
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Unsere kleine Kämpferin ♡</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#faf9f5;color:#455347;font-family:Arial,sans-serif}
-header{text-align:center;background:#eaf0e8;padding:45px 20px}
-.hero{font-size:55px}
-h1{font-family:Georgia,serif;font-size:clamp(30px,7vw,45px);font-weight:normal;color:#526b57}
-header p{line-height:1.7;max-width:550px;margin:auto}
-main{max-width:950px;margin:auto;padding:25px 16px}
-h2{text-align:center;font-family:Georgia,serif;font-weight:normal;color:#526b57}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-.card{background:white;border:1px solid #e5eae3;border-radius:15px;overflow:hidden}
-.picture{background:#edf2eb;padding:28px;text-align:center;font-size:48px}
-.content{padding:17px}
+header{text-align:center;background:#eaf0e8;padding:40px 18px}
+.hero{font-size:52px}
+h1,h2{font-family:Georgia,serif;font-weight:normal;color:#526b57}
+h1{font-size:clamp(30px,7vw,44px)}
+header p{line-height:1.7}
+main{max-width:1000px;margin:auto;padding:25px 16px}
+h2{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card,.panel{background:white;border:1px solid #e5eae3;border-radius:15px;overflow:hidden}
+.picture{background:#edf2eb;padding:25px;text-align:center;font-size:45px}
+.content{padding:16px}
 .content h3{color:#526b57;margin:5px 0}
 .price{color:#879087}
 button,.link{display:block;width:100%;border:0;border-radius:8px;background:#819780;color:white;padding:12px;margin-top:9px;text-align:center;text-decoration:none;cursor:pointer}
-.status{font-size:12px;color:#627b61}
-footer{text-align:center;background:#eaf0e8;padding:35px;margin-top:35px}
+button:hover,.link:hover{background:#526b57}
+.secondary{background:#eaf0e8;color:#526b57}
+.status{font-size:13px;color:#627b61}
+.panel{padding:20px;margin-top:28px}
+input,select{width:100%;padding:12px;border:1px solid #d9dfd6;border-radius:8px;margin:7px 0 13px}
+label{font-size:13px}
+footer{text-align:center;background:#eaf0e8;padding:30px;margin-top:35px}
 </style>
 </head>
 <body>
@@ -33,16 +40,38 @@ footer{text-align:center;background:#eaf0e8;padding:35px;margin-top:35px}
 Wie schön, dass du hier bist! Wir haben einige Herzenswünsche für unsere kleine Prinzessin gesammelt.</p>
 </header>
 <main>
-<h2>Unsere Geschenkideen</h2>
-<p style="text-align:center">Mit Liebe ausgesucht – vielleicht ist etwas für dich dabei. ♡</p>
-<div class="grid" id="gifts"></div>
+<h2>Unsere Geschenkideen ♡</h2>
+<p style="text-align:center">Such dir gerne etwas aus!</p>
+<div id="gifts" class="grid"></div>
+
+<section class="panel">
+<h2>Geschenkverwaltung</h2>
+<p>Hier kannst du neue Wünsche hinzufügen und reservierte Geschenke verwalten.</p>
+<label>Geschenkname</label>
+<input id="name" placeholder="z. B. Kuscheldecke">
+<label>Kategorie</label>
+<select id="category">
+<option>Kleidung</option><option>Schlafen</option>
+<option>Spielen</option><option>Pflege</option>
+<option>Kinderzimmer</option><option>Unterwegs</option>
+<option>Sonstiges</option>
+</select>
+<label>Preis</label>
+<input id="price" placeholder="z. B. 29,90 €">
+<label>Produktlink</label>
+<input id="url" type="url" placeholder="https://...">
+<label>Emoji</label>
+<input id="emoji" value="🎁">
+<button onclick="addGift()">Geschenk hinzufügen</button>
+<div id="management"></div>
+</section>
 </main>
 <footer>
 <h2>Von Herzen danke! ♡</h2>
 <p>Das größte Geschenk ist, dass du Teil unserer kleinen Geschichte bist.</p>
 </footer>
 <script>
-const gifts=[
+const starter=[
 {name:"Kuscheldecke",category:"Kleidung",price:"29,90 €",emoji:"☁️",url:"https://www.amazon.de/s?k=baby+kuscheldecke"},
 {name:"Babynest",category:"Schlafen",price:"69,90 €",emoji:"🧸",url:"https://www.amazon.de/s?k=babynest+baby"},
 {name:"Spielbogen",category:"Spielen",price:"49,90 €",emoji:"🌿",url:"https://www.amazon.de/s?k=baby+spielbogen"},
@@ -50,26 +79,72 @@ const gifts=[
 {name:"Babybett",category:"Kinderzimmer",price:"199,00 €",emoji:"🛏️",url:"https://www.ikea.com/de/de/"},
 {name:"Kinderwagen",category:"Unterwegs",price:"399,00 €",emoji:"🚼",url:"https://www.babyone.de/"}
 ];
+let gifts=JSON.parse(localStorage.getItem("babyGifts")||"null")||starter;
 let reserved=JSON.parse(localStorage.getItem("babyReserved")||"[]");
+function save(){
+localStorage.setItem("babyGifts",JSON.stringify(gifts));
+localStorage.setItem("babyReserved",JSON.stringify(reserved));
+}
 function render(){
 document.getElementById("gifts").innerHTML=gifts.map((g,i)=>`
 <article class="card">
-<div class="picture">${g.emoji}</div>
+<div class="picture">${escapeHTML(g.emoji)}</div>
 <div class="content">
-<small>${g.category}</small>
-<h3>${g.name}</h3>
-<div class="price">${g.price}</div>
+<small>${escapeHTML(g.category)}</small>
+<h3>${escapeHTML(g.name)}</h3>
+<p class="price">${escapeHTML(g.price)}</p>
 <p class="status">${reserved.includes(i)?"♡ Reserviert":"♡ Noch frei"}</p>
-<a class="link" href="${g.url}" target="_blank" rel="noopener">Produkt ansehen ↗</a>
-${reserved.includes(i)?"":`<button onclick="reserve(${i})">Geschenk reservieren</button>`}
+<a class="link" href="${safeURL(g.url)}" target="_blank" rel="noopener">Produkt ansehen ↗</a>
+${reserved.includes(i)
+?'<button class="secondary" onclick="releaseGift('+i+')">Reservierung aufheben</button>'
+:'<button onclick="reserveGift('+i+')">Geschenk reservieren</button>'}
 </div></article>`).join("");
+document.getElementById("management").innerHTML=
+"<h3>Geschenke verwalten</h3>"+gifts.map((g,i)=>`
+<div style="padding:12px;border-bottom:1px solid #eee">
+<strong>${escapeHTML(g.name)}</strong>
+<button class="secondary" onclick="releaseGift(${i})">Reservierung aufheben</button>
+<button class="secondary" onclick="deleteGift(${i})">Geschenk löschen</button>
+</div>`).join("");
 }
-function reserve(i){
+function escapeHTML(s){
+return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function safeURL(s){
+try{
+const u=new URL(s);
+return ["https:","http:"].includes(u.protocol)?escapeHTML(u.href):"#";
+}catch(e){return "#";}
+}
+function reserveGift(i){
+if(reserved.includes(i))return;
 if(!confirm("Möchtest du dieses Geschenk reservieren?"))return;
-reserved.push(i);
-localStorage.setItem("babyReserved",JSON.stringify(reserved));
-render();
+reserved.push(i);save();render();
 alert("Vielen Dank für deine Reservierung! ♡");
+}
+function releaseGift(i){
+reserved=reserved.filter(x=>x!==i);save();render();
+}
+function deleteGift(i){
+if(!confirm("Geschenk wirklich löschen?"))return;
+gifts.splice(i,1);
+reserved=reserved.filter(x=>x!==i).map(x=>x>i?x-1:x);
+save();render();
+}
+function addGift(){
+const name=document.getElementById("name").value.trim();
+const url=document.getElementById("url").value.trim();
+if(!name||!/^https?:\/\//i.test(url)){
+alert("Bitte Geschenkname und gültigen Produktlink eingeben.");return;
+}
+gifts.push({
+name, url,
+category:document.getElementById("category").value,
+price:document.getElementById("price").value,
+emoji:document.getElementById("emoji").value
+});
+save();render();
+["name","price","url"].forEach(id=>document.getElementById(id).value="");
 }
 render();
 </script>
