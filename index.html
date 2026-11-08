@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f8f3ef">
-<meta name="description" content="Unsere Herzenswünsche für unsere kleine Kämpferin. Mit Liebe ausgesuchte Geschenkideen.">
+<meta name="description" content="Unsere Herzenswünsche für unsere kleine Kämpferin.">
 <title>Unsere kleine Kämpferin ♡</title>
 
 <style>
@@ -19,52 +19,35 @@
   --dark: #655653;
   --muted: #938681;
   --border: #eee5df;
-  --shadow: 0 12px 35px rgba(101,86,83,.07);
+  --shadow: 0 8px 25px rgba(101,86,83,.06);
 }
 
 * { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   background: var(--cream);
   color: var(--dark);
-  font-family: "Arial", sans-serif;
+  font-family: Arial, sans-serif;
   line-height: 1.65;
 }
 
-button, input, select { font: inherit; }
-
-button, a { -webkit-tap-highlight-color: transparent; }
-
-button:focus-visible, a:focus-visible,
-input:focus-visible, select:focus-visible {
-  outline: 3px solid var(--sage);
-  outline-offset: 3px;
-}
-
 .hero {
-  position: relative;
-  overflow: hidden;
   text-align: center;
-  padding: 85px 20px 75px;
+  padding: 65px 18px 55px;
   background:
-    radial-gradient(circle at 15% 20%, #ffffff99 0, transparent 30%),
-    radial-gradient(circle at 85% 75%, #ffffff88 0, transparent 30%),
+    radial-gradient(circle at 15% 20%, #ffffff99, transparent 30%),
     linear-gradient(140deg, #f3e4e2, #e9eee5);
 }
 
-.hero-flower {
-  font-size: 34px;
-  margin-bottom: 20px;
-}
+.flower { font-size: 34px; }
 
 .eyebrow {
   font-size: 11px;
   letter-spacing: 4px;
   color: #987a78;
   text-transform: uppercase;
+  margin-top: 15px;
 }
 
 h1, h2, h3 {
@@ -73,172 +56,109 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: clamp(36px, 7vw, 60px);
-  line-height: 1.15;
+  font-size: clamp(35px, 7vw, 55px);
   color: #765d60;
-  margin: 20px 0;
+  line-height: 1.2;
+  margin: 15px 0;
 }
 
-.hero p {
-  color: #806f6b;
-  line-height: 1.9;
-  font-size: 16px;
-}
-
-.hero-decoration {
-  position: absolute;
-  font-size: 42px;
-  opacity: .25;
-  pointer-events: none;
-}
-
-.hero-decoration.left { left: 8%; top: 20%; }
-.hero-decoration.right { right: 8%; bottom: 15%; }
+.hero p { color: #806f6b; }
 
 main {
-  max-width: 1150px;
+  max-width: 850px;
   margin: auto;
-  padding: 35px 22px 70px;
+  padding: 25px 18px 65px;
 }
 
 .intro {
   text-align: center;
-  margin: 35px 0 48px;
+  margin: 25px 0 35px;
 }
 
 .intro h2 {
-  font-size: 34px;
   color: #806a68;
-  margin-bottom: 12px;
+  font-size: 32px;
+  margin-bottom: 10px;
 }
 
 .intro p {
   color: var(--muted);
-  line-height: 1.9;
+  font-size: 14px;
 }
 
 .divider {
   color: var(--rose);
   font-size: 22px;
-  margin: 20px 0;
+  margin-bottom: 12px;
 }
 
-.toolbar {
+.gift-list {
   display: flex;
-  gap: 12px;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
-}
-
-.search {
-  flex: 1;
-  min-width: 200px;
-}
-
-input, select {
-  width: 100%;
-  padding: 13px 15px;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: white;
-  color: var(--dark);
-}
-
-.search input { height: 48px; }
-
-.filter {
-  min-width: 220px;
-  height: 48px;
-}
-
-.counter {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 0 0 18px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
+  flex-direction: column;
+  gap: 17px;
 }
 
 .card {
   display: flex;
-  flex-direction: column;
+  align-items: stretch;
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 19px;
+  border-radius: 17px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  transition: transform .2s, box-shadow .2s;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 38px rgba(101,86,83,.12);
 }
 
 .photo-wrap {
-  position: relative;
+  width: 185px;
+  min-width: 185px;
   background: #f7f4ef;
-  height: 235px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .photo {
   width: 100%;
-  height: 100%;
-  padding: 15px;
+  height: 185px;
+  padding: 13px;
   object-fit: contain;
 }
 
 .no-image {
-  font-size: 44px;
+  font-size: 40px;
   color: var(--rose);
 }
 
 .content {
+  flex: 1;
+  min-width: 0;
+  padding: 17px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  padding: 19px;
-}
-
-.category {
-  color: #a0807e;
-  font-size: 10px;
-  letter-spacing: 1.7px;
-  text-transform: uppercase;
 }
 
 .content h3 {
   font-size: 21px;
   line-height: 1.35;
-  margin: 10px 0;
-  color: var(--dark);
+  margin: 0 0 7px;
 }
 
 .shop {
-  font-size: 13px;
   color: var(--muted);
+  font-size: 12px;
 }
 
 .note {
-  font-size: 13px;
   color: #8b817c;
-  margin: 10px 0;
+  font-size: 13px;
+  margin: 8px 0;
 }
 
 .status {
   display: inline-flex;
-  align-items: center;
   align-self: flex-start;
-  padding: 7px 12px;
-  margin: 12px 0;
+  padding: 5px 11px;
+  margin: 10px 0;
   border-radius: 30px;
   background: var(--sage-light);
   color: #62775f;
@@ -250,26 +170,20 @@ input, select {
   color: #926c70;
 }
 
-.actions {
-  margin-top: auto;
-}
+.actions { margin-top: auto; }
 
 .btn {
   display: block;
   width: 100%;
-  padding: 12px;
-  margin-top: 9px;
-  border: none;
-  border-radius: 10px;
+  padding: 11px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 9px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
   font-size: 13px;
-  transition: opacity .2s, transform .2s;
 }
-
-.btn:hover { opacity: .85; }
-.btn:active { transform: scale(.98); }
 
 .shoplink {
   background: var(--sage);
@@ -286,113 +200,38 @@ input, select {
   color: #62775f;
 }
 
-.empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 45px 20px;
-  color: var(--muted);
-  background: white;
-  border-radius: 18px;
+.btn:disabled {
+  opacity: .7;
+  cursor: not-allowed;
 }
 
-.panel {
-  margin-top: 75px;
-  background: white;
-  padding: 30px;
-  border: 1px solid var(--border);
-  border-radius: 19px;
-  box-shadow: var(--shadow);
-}
-
-.panel h2 {
-  text-align: center;
-  color: #806a68;
-  font-size: 29px;
-}
-
-.panel-intro {
+.message {
   text-align: center;
   color: var(--muted);
-  font-size: 13px;
-  margin-bottom: 25px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-
-.field { margin-bottom: 12px; }
-
-.field.full { grid-column: 1 / -1; }
-
-.field label {
-  display: block;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.add {
-  background: var(--sage);
-  color: white;
-}
-
-.delete {
-  background: var(--rose-light);
-  color: #795f60;
-}
-
-.manage-list {
-  margin-top: 25px;
-  border-top: 1px solid var(--border);
-}
-
-.manage-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 13px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
-}
-
-.manage-item .btn {
-  width: auto;
-  padding: 8px 12px;
-  margin: 0;
+  padding: 20px;
 }
 
 footer {
   text-align: center;
-  padding: 55px 20px;
+  padding: 45px 18px;
   background: #eeeae3;
 }
 
 footer h2 {
   color: #806a68;
-  font-size: 30px;
+  font-size: 29px;
 }
 
 footer p { color: #8c807b; }
 
-.footer-flower {
-  font-size: 30px;
-  margin-bottom: 10px;
-}
-
-.small {
-  font-size: 12px;
-  color: #a09690;
-}
-
 .toast {
   position: fixed;
-  bottom: 25px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 13px 20px;
+  width: max-content;
+  max-width: calc(100% - 30px);
+  padding: 12px 18px;
   border-radius: 12px;
   background: #655653;
   color: white;
@@ -402,35 +241,28 @@ footer p { color: #8c807b; }
   display: none;
 }
 
-@media(max-width: 850px) {
-  .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-}
-
 @media(max-width: 540px) {
-  .hero { padding: 60px 16px 55px; }
-  main { padding: 25px 14px 50px; }
-  .intro h2 { font-size: 29px; }
-  .grid { gap: 12px; }
-  .photo-wrap { height: 155px; }
-  .content { padding: 12px; }
-  .content h3 { font-size: 17px; }
-  .category { font-size: 9px; letter-spacing: 1px; }
-  .shop { font-size: 11px; }
-  .note { font-size: 12px; }
-  .btn { padding: 11px 7px; font-size: 12px; }
-  .status { font-size: 11px; padding: 6px 9px; }
-  .panel { padding: 20px 15px; }
-  .form-grid { grid-template-columns: 1fr; }
-  .field.full { grid-column: auto; }
-  .manage-item { align-items: flex-start; }
-  .hero-decoration { display: none; }
+  .hero { padding: 50px 15px 42px; }
+  main { padding: 18px 12px 45px; }
+  .intro h2 { font-size: 28px; }
+  .gift-list { gap: 13px; }
+
+  .card { flex-direction: column; }
+
+  .photo-wrap {
+    width: 100%;
+    min-width: 0;
+    height: 180px;
+  }
+
+  .photo { height: 180px; }
+
+  .content { padding: 14px; }
+  .content h3 { font-size: 19px; }
 }
 
 @media(prefers-reduced-motion:reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    transition: none !important;
-  }
+  * { scroll-behavior: auto !important; }
 }
 </style>
 </head>
@@ -438,9 +270,7 @@ footer p { color: #8c807b; }
 <body>
 
 <header class="hero">
-  <div class="hero-decoration left">🌸</div>
-  <div class="hero-decoration right">🌿</div>
-  <div class="hero-flower">🌸 ♡ 🌿</div>
+  <div class="flower">🌸 ♡ 🌿</div>
   <div class="eyebrow">Unser kleines Wunder</div>
   <h1>Unsere kleine Kämpferin</h1>
   <p>Mit Liebe ausgesucht.<br>
@@ -459,208 +289,40 @@ footer p { color: #8c807b; }
   </p>
 </section>
 
-<div class="toolbar">
-  <div class="search">
-    <input id="search" type="search"
-      placeholder="♡ Geschenk suchen ..."
-      aria-label="Geschenke suchen">
-  </div>
-  <div class="filter">
-    <select id="categoryFilter" aria-label="Kategorie auswählen">
-      <option value="">Alle Kategorien</option>
-      <option>Kuscheln & Geborgenheit</option>
-      <option>Baden & Pflege</option>
-      <option>Spielen & Entdecken</option>
-      <option>Ausstattung</option>
-      <option>Sonstiges</option>
-    </select>
-  </div>
-</div>
-
-<p class="counter" id="counter" aria-live="polite"></p>
-
-<section class="grid" id="gifts" aria-label="Geschenkwunschliste"></section>
-
-<details class="panel">
-  <summary style="cursor:pointer;text-align:center;font-family:Georgia,serif;font-size:25px;color:#806a68">
-    Wünsche verwalten ♡
-  </summary>
-
-  <p class="panel-intro">
-    Hier kannst du neue Geschenkideen ergänzen oder bestehende Wünsche löschen.
-  </p>
-
-  <form id="giftForm">
-    <div class="form-grid">
-
-      <div class="field">
-        <label for="newName">Geschenkname *</label>
-        <input id="newName" required maxlength="100"
-          placeholder="Name des Geschenks">
-      </div>
-
-      <div class="field">
-        <label for="newCategory">Kategorie</label>
-        <select id="newCategory">
-          <option>Kuscheln & Geborgenheit</option>
-          <option>Baden & Pflege</option>
-          <option>Spielen & Entdecken</option>
-          <option>Ausstattung</option>
-          <option>Sonstiges</option>
-        </select>
-      </div>
-
-      <div class="field full">
-        <label for="newUrl">Produktlink *</label>
-        <input id="newUrl" type="url" required
-          placeholder="https://...">
-      </div>
-
-      <div class="field full">
-        <label for="newImage">Bildlink (optional)</label>
-        <input id="newImage" type="url"
-          placeholder="https://...">
-      </div>
-
-      <div class="field full">
-        <label for="newNote">Zusätzliche Information (optional)</label>
-        <input id="newNote" maxlength="200"
-          placeholder="z. B. Farbe, Größe oder Wunschvariante">
-      </div>
-
-      <div class="field full">
-        <button class="btn add" type="submit">
-          + Geschenk hinzufügen
-        </button>
-      </div>
-
-    </div>
-  </form>
-
-  <div class="manage-list" id="management"></div>
-
-  <p class="small">
-    Hinweis: Änderungen werden nur in diesem Browser gespeichert.
-    Für eine gemeinsame Verwaltung aller Besucher ist eine Datenbank erforderlich.
-  </p>
-</details>
+<section id="gifts" class="gift-list" aria-label="Babywunschliste">
+  <p class="message">Unsere Herzenswünsche werden geladen ... ♡</p>
+</section>
 
 </main>
 
 <footer>
-  <div class="footer-flower">♡ 🌸 ♡</div>
+  <div class="flower">♡ 🌸 ♡</div>
   <h2>Von Herzen danke!</h2>
   <p>Das größte Geschenk ist, dass du Teil unserer Geschichte bist.</p>
-  <p class="small">Unsere kleine Kämpferin – mit ganz viel Liebe. ♡</p>
+  <p>Unsere kleine Kämpferin – mit ganz viel Liebe. ♡</p>
 </footer>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 "use strict";
 
-/* Geschenkideen */
+/* SUPABASE */
 
-const products = [
-  {
-    id: "ullenboom",
-    name: "Einschlagdecke",
-    category: "Kuscheln & Geborgenheit",
-    shop: "ULLENBOOM",
-    url: "https://ullenboom-baby.de/collections/einschlagdecke",
-    image: "https://ullenboom-baby.de/cdn/shop/files/Ullenboom_Freisteller_Einschlagdecke_SC-halboffen.webp?v=1759410720&width=1600",
-    note: "Design Märchenwald oder Waldfreunde – 2,5 TOG Ganzjahr"
-  },
-  {
-    id: "gruen",
-    name: "Traubenkern-Wolke Schaf",
-    category: "Kuscheln & Geborgenheit",
-    shop: "GRÜNSPECHT",
-    url: "https://gruenspecht.de/products/traubenkern-wolke-schaf?_pos=5&_sid=e8b602482&_ss=r",
-    image: "https://gruenspecht.de/cdn/shop/files/traubenkern-wolke-schaf-183-v4-4260018191893-1450574.webp?v=1766663169&width=1946"
-  },
-  {
-    id: "sterntaler",
-    name: "Kapuzenbadetuch Emmily Schmetterlinge",
-    category: "Baden & Pflege",
-    shop: "Sterntaler",
-    url: "https://www.amazon.de/Sterntaler-7122177-Kapuzenbadetuch-100x100-Schmetterlinge/dp/B0992C6KKV",
-    image: "https://m.media-amazon.com/images/I/91lY0kyRJwL._SY679_.jpg"
-  },
-  {
-    id: "fehn2",
-    name: "Knister-Schaf Beige",
-    category: "Spielen & Entdecken",
-    shop: "Fehn",
-    url: "https://www.fehn.de/products/knister-schaf-beige?_pos=1&_sid=41d3b83ef&_ss=r",
-    image: "https://www.fehn.de/cdn/shop/files/046052_1_2000_f0fbd79a-fb53-4476-aba8-170e2fe532e1.jpg?v=1776838460&width=1080"
-  },
-  {
-    id: "stokke",
-    name: "Tripp Trapp Newborn Set",
-    category: "Ausstattung",
-    shop: "Stokke – gebraucht gesucht",
-    url: "https://www.stokke.com/DEU/de-de/hochstuehle/tripp-trapp/tripp-trapp-newborn-complete.html",
-    image: "https://www.stokke.com/dw/image/v2/AAQF_PRD/on/demandware.static/-/Sites-stokke-master-catalog/default/dw37d0dc84/images/inriverimages/mainview/TrippTrapp_Natural_Newborn_Grey_WW-Bundle_25_1-1_eCom.png",
-    note: "Gebraucht gesucht"
-  },
-  {
-    id: "emmanoah",
-    name: "Babydecke aus Merinowolle (warm)",
-    category: "Ausstattung",
-    shop: "Emmanoah",
-    url: "https://www.emmanoah.de/products/merinowoll-teddy-kuscheldecke-essential-taupe",
-    image: "https://www.emmanoah.de/cdn/shop/files/TKD_EssentialTaupe_72dpi_01.jpg?v=1755271875&width=800",
-    note: "Essential Taupe"
-  },
-  {
-    id: "ehrenkind",
-    name: "Babydecke Baumwolle (leicht)",
-    category: "Ausstattung",
-    shop: "Ehrenkind",
-    url: "https://www.ehrenkind.de/products/tagesdecke-waffelpique?variant=55583353700728",
-    image: "https://www.ehrenkind.de/cdn/shop/files/ehrenkind-tagesdecke-waffelpique-jade.jpg?quality=80&v=1782312470&width=900",
-    note: "Waffel – Farbe Jade"
-  },
-  {
-    id: "sigikid",
-    name: "Spieluhr Schaf",
-    category: "Spielen & Entdecken",
-    shop: "sigikid bei HANS NATUR",
-    url: "https://sigikid.de/Baby-Spieluhr-Schaf-Bio-Baumwolle-Schurwolle-Pure-Collection/39055",
-    image: "https://sigikid.de/thumbnail/6b/97/7f/1793180989/00000002070039055_1920x1920.jpg?ts=1793180989",
-    note: "Melodie: Schlaf Kindlein Schlaf"
-  },
-  {
-    id: "naturkind",
-    name: "Kontrastkarten Set",
-    category: "Spielen & Entdecken",
-    shop: "naturkind",
-    url: "https://www.naturkind.com/products/kontrastkarten",
-    image: "https://www.naturkind.com/cdn/shop/files/1391_Kontrastkarten.jpg?v=1726481433&width=1000"
-  },
-  {
-    id: "kontrastbuch",
-    name: "Weiches Kontrastbuch",
-    category: "Spielen & Entdecken",
-    shop: "Amazon",
-    url: "https://www.amazon.de/Babys-kuschelweiches-Kontrastbuch-Stoffbuch-Schwarz-Weiß-Bilder/dp/364964908X",
-    image: "https://m.media-amazon.com/images/I/61hQrGRQAxL._SY342_.jpg"
-  }
-];
+const SUPABASE_URL =
+  "https://wwqdkdgbaetvxthtbawq.supabase.co";
 
-
-"use strict";
-
-const SUPABASE_URL = "https://wwqdkdgbaetvxthtbawq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_HrHshisGtAIHfHpNtRV4HQ_15t5cYJB";
+const SUPABASE_KEY =
+  "sb_publishable_HrHshisGtAIHfHpNtRV4HQ_15t5cYJB";
 
 const db = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+
+/* PERSÖNLICHER RESERVIERUNGSSCHLÜSSEL */
 
 let token = localStorage.getItem("babyReservationToken");
 
@@ -670,9 +332,101 @@ if (!token) {
 }
 
 let reserved = [];
-let myReservations = JSON.parse(
-  localStorage.getItem("myBabyReservations") || "[]"
-);
+let busy = false;
+
+let myReservations = [];
+
+try {
+  const saved = JSON.parse(
+    localStorage.getItem("myBabyReservations") || "[]"
+  );
+
+  if (Array.isArray(saved)) myReservations = saved;
+} catch {
+  myReservations = [];
+}
+
+/* ALLE BABYWUNSCHARTIKEL */
+
+const products = [
+  {
+    id: "ullenboom",
+    name: "Einschlagdecke",
+    shop: "ULLENBOOM",
+    url: "https://ullenboom-baby.de/collections/einschlagdecke",
+    image: "https://ullenboom-baby.de/cdn/shop/files/Ullenboom_Freisteller_Einschlagdecke_SC-halboffen.webp?v=1759410720&width=1600",
+    note: "Design Märchenwald oder Waldfreunde – 2,5 TOG Ganzjahr"
+  },
+  {
+    id: "gruen",
+    name: "Traubenkern-Wolke Schaf",
+    shop: "GRÜNSPECHT",
+    url: "https://gruenspecht.de/products/traubenkern-wolke-schaf?_pos=5&_sid=e8b602482&_ss=r",
+    image: "https://gruenspecht.de/cdn/shop/files/traubenkern-wolke-schaf-183-v4-4260018191893-1450574.webp?v=1766663169&width=1946"
+  },
+  {
+    id: "sterntaler",
+    name: "Kapuzenbadetuch Emmily Schmetterlinge",
+    shop: "Sterntaler",
+    url: "https://www.amazon.de/Sterntaler-7122177-Kapuzenbadetuch-100x100-Schmetterlinge/dp/B0992C6KKV",
+    image: "https://m.media-amazon.com/images/I/91lY0kyRJwL._SY679_.jpg"
+  },
+  {
+    id: "fehn2",
+    name: "Knister-Schaf Beige",
+    shop: "Fehn",
+    url: "https://www.fehn.de/products/knister-schaf-beige?_pos=1&_sid=41d3b83ef&_ss=r",
+    image: "https://www.fehn.de/cdn/shop/files/046052_1_2000_f0fbd79a-fb53-4476-aba8-170e2fe532e1.jpg?v=1776838460&width=1080"
+  },
+  {
+    id: "stokke",
+    name: "Tripp Trapp Newborn Set",
+    shop: "Stokke – gebraucht gesucht",
+    url: "https://www.stokke.com/DEU/de-de/hochstuehle/tripp-trapp/tripp-trapp-newborn-complete.html",
+    image: "https://www.stokke.com/dw/image/v2/AAQF_PRD/on/demandware.static/-/Sites-stokke-master-catalog/default/dw37d0dc84/images/inriverimages/mainview/TrippTrapp_Natural_Newborn_Grey_WW-Bundle_25_1-1_eCom.png",
+    note: "Gebraucht gesucht"
+  },
+  {
+    id: "emmanoah",
+    name: "Babydecke aus Merinowolle (warm)",
+    shop: "Emmanoah",
+    url: "https://www.emmanoah.de/products/merinowoll-teddy-kuscheldecke-essential-taupe",
+    image: "https://www.emmanoah.de/cdn/shop/files/TKD_EssentialTaupe_72dpi_01.jpg?v=1755271875&width=800",
+    note: "Essential Taupe"
+  },
+  {
+    id: "ehrenkind",
+    name: "Babydecke Baumwolle (leicht)",
+    shop: "Ehrenkind",
+    url: "https://www.ehrenkind.de/products/tagesdecke-waffelpique?variant=55583353700728",
+    image: "https://www.ehrenkind.de/cdn/shop/files/ehrenkind-tagesdecke-waffelpique-jade.jpg?quality=80&v=1782312470&width=900",
+    note: "Waffel – Farbe Jade"
+  },
+  {
+    id: "sigikid",
+    name: "Spieluhr Schaf",
+    shop: "sigikid bei HANS NATUR",
+    url: "https://sigikid.de/Baby-Spieluhr-Schaf-Bio-Baumwolle-Schurwolle-Pure-Collection/39055",
+    image: "https://sigikid.de/thumbnail/6b/97/7f/1793180989/00000002070039055_1920x1920.jpg?ts=1793180989",
+    note: "Melodie: Schlaf Kindlein Schlaf"
+  },
+  {
+    id: "naturkind",
+    name: "Kontrastkarten Set",
+    shop: "naturkind",
+    url: "https://www.naturkind.com/products/kontrastkarten",
+    image: "https://www.naturkind.com/cdn/shop/files/1391_Kontrastkarten.jpg?v=1726481433&width=1000"
+  },
+  {
+    id: "kontrastbuch",
+    name: "Weiches Kontrastbuch",
+    shop: "Amazon",
+    url: "https://www.amazon.de/Babys-kuschelweiches-Kontrastbuch-Stoffbuch-Schwarz-Weiß-Bilder/dp/364964908X",
+    image: "https://m.media-amazon.com/images/I/61hQrGRQAxL._SY342_.jpg"
+  }
+];
+
+/* SICHERHEIT */
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -687,6 +441,7 @@ function escapeHTML(value) {
 function safeURL(value) {
   try {
     const url = new URL(value);
+
     return ["https:", "http:"].includes(url.protocol)
       ? url.href : "";
   } catch {
@@ -694,17 +449,24 @@ function safeURL(value) {
   }
 }
 
-async function loadReservations() {
-  const { data, error } = await db.rpc("get_reserved_gifts");
+/* RÜCKMELDUNG */
 
-  if (error) {
-    showToast("Reservierungen konnten nicht geladen werden.");
-    return;
-  }
+let toastTimeout;
 
-  reserved = data.map(item => item.gift_id);
-  render();
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.style.display = "block";
+
+  clearTimeout(toastTimeout);
+
+  toastTimeout = setTimeout(() => {
+    toast.style.display = "none";
+  }, 2800);
 }
+
+/* WUNSCHLISTE DARSTELLEN */
 
 function render() {
   const grid = document.getElementById("gifts");
@@ -718,102 +480,179 @@ function render() {
 
     return `
       <article class="card">
+
         <div class="photo-wrap">
           ${image
-            ? `<img class="photo" src="${escapeHTML(image)}"
-                alt="${escapeHTML(g.name)}" loading="lazy">`
+            ? `<img class="photo"
+                src="${escapeHTML(image)}"
+                alt="${escapeHTML(g.name)}"
+                loading="lazy"
+                onerror="this.style.display='none'">`
             : `<span class="no-image">♡</span>`
           }
         </div>
 
         <div class="content">
-          <h3>${escapeHTML(g.name)}</h3>
-          <div class="shop">${escapeHTML(g.shop || "Geschenkidee")}</div>
 
-          ${g.note ? `<p class="note">${escapeHTML(g.note)}</p>` : ""}
+          <h3>${escapeHTML(g.name)}</h3>
+
+          <div class="shop">
+            ${escapeHTML(g.shop)}
+          </div>
+
+          ${g.note
+            ? `<p class="note">${escapeHTML(g.note)}</p>`
+            : ""
+          }
 
           <div class="status ${isReserved ? "reserved" : ""}">
-            ${isMine ? "♡ Von dir reserviert" :
-              isReserved ? "♡ Bereits reserviert" : "♡ Noch frei"}
+            ${isMine
+              ? "♡ Von dir reserviert"
+              : isReserved
+                ? "♡ Bereits reserviert"
+                : "♡ Noch frei"
+            }
           </div>
 
           <div class="actions">
-            ${link ? `
-              <a class="btn shoplink" href="${escapeHTML(link)}"
-                target="_blank" rel="noopener noreferrer">
-                Im Shop ansehen ↗
-              </a>` : ""}
 
-            <button class="btn ${isMine ? "release" : "reserve"}"
+            ${link ? `
+              <a class="btn shoplink"
+                href="${escapeHTML(link)}"
+                target="_blank"
+                rel="noopener noreferrer">
+                Im Shop ansehen ↗
+              </a>
+            ` : ""}
+
+            <button
+              class="btn ${isMine ? "release" : "reserve"}"
               data-id="${escapeHTML(g.id)}"
-              ${isReserved && !isMine ? "disabled" : ""}>
-              ${isMine ? "Reservierung aufheben" :
-                isReserved ? "Bereits vergeben" : "Geschenk reservieren"}
+              ${isReserved && !isMine || busy ? "disabled" : ""}
+            >
+              ${isMine
+                ? "Reservierung aufheben"
+                : isReserved
+                  ? "Bereits reserviert"
+                  : "Geschenk reservieren"
+              }
             </button>
+
           </div>
         </div>
-      </article>`;
+      </article>
+    `;
   }).join("");
 }
 
-async function toggleReservation(id) {
-  const isMine = myReservations.includes(id);
+/* RESERVIERUNGEN LADEN */
 
-  const { data, error } = await db.rpc(
-    isMine ? "release_gift" : "reserve_gift",
-    {
-      p_gift_id: id,
-      p_token: token
-    }
-  );
+async function loadReservations() {
+  const { data, error } = await db.rpc("get_reserved_gifts");
 
   if (error) {
-    showToast("Fehler bei der Reservierung.");
+    document.getElementById("gifts").innerHTML =
+      '<p class="message">Die Wunschliste konnte gerade nicht geladen werden. Bitte später erneut versuchen. ♡</p>';
+
+    console.error(error);
     return;
   }
 
-  if (!data) {
-    showToast("Dieser Artikel ist bereits reserviert.");
-    await loadReservations();
-    return;
-  }
+  reserved = data.map(item => item.gift_id);
 
-  if (isMine) {
-    myReservations = myReservations.filter(x => x !== id);
-    showToast("Reservierung aufgehoben ♡");
-  } else {
-    myReservations.push(id);
-    showToast("Geschenk erfolgreich reserviert ♡");
-  }
+  // Nur Reservierungen dieses Browsers als eigene anzeigen,
+  // wenn sie auch tatsächlich in der Datenbank bestehen.
+  myReservations = myReservations.filter(id => reserved.includes(id));
 
   localStorage.setItem(
     "myBabyReservations",
     JSON.stringify(myReservations)
   );
 
-  await loadReservations();
+  render();
 }
 
-document.getElementById("gifts").addEventListener("click", event => {
-  const button = event.target.closest("button[data-id]");
-  if (!button || button.disabled) return;
-  toggleReservation(button.dataset.id);
-});
+/* RESERVIEREN UND FREIGEBEN */
 
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.style.display = "block";
+async function toggleReservation(id) {
+  if (busy) return;
 
-  clearTimeout(window.toastTimeout);
-  window.toastTimeout = setTimeout(() => {
-    toast.style.display = "none";
-  }, 2600);
+  if (!products.some(g => g.id === id)) return;
+
+  busy = true;
+  render();
+
+  const isMine = myReservations.includes(id);
+
+  try {
+    const { data, error } = await db.rpc(
+      isMine ? "release_gift" : "reserve_gift",
+      {
+        p_gift_id: id,
+        p_token: token
+      }
+    );
+
+    if (error) throw error;
+
+    if (!data) {
+      showToast(
+        isMine
+          ? "Reservierung konnte nicht aufgehoben werden."
+          : "Dieser Artikel ist bereits reserviert."
+      );
+
+      await loadReservations();
+      return;
+    }
+
+    if (isMine) {
+      myReservations = myReservations.filter(x => x !== id);
+      showToast("Reservierung aufgehoben ♡");
+    } else {
+      myReservations.push(id);
+      showToast("Geschenk erfolgreich reserviert ♡");
+    }
+
+    localStorage.setItem(
+      "myBabyReservations",
+      JSON.stringify(myReservations)
+    );
+
+    await loadReservations();
+
+  } catch (error) {
+    console.error(error);
+    showToast("Es gab einen Fehler. Bitte erneut versuchen.");
+    await loadReservations();
+
+  } finally {
+    busy = false;
+    render();
+  }
 }
+
+/* BUTTONS */
+
+document.getElementById("gifts").addEventListener(
+  "click",
+  event => {
+    const button = event.target.closest("button[data-id]");
+
+    if (!button || button.disabled) return;
+
+    toggleReservation(button.dataset.id);
+  }
+);
+
+/* START */
 
 loadReservations();
+
+// Reservierungen regelmäßig aktualisieren
 setInterval(loadReservations, 30000);
 
 </script>
+
 </body>
 </html>
