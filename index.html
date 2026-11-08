@@ -556,6 +556,8 @@ footer p { color: #8c807b; }
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 "use strict";
 
@@ -649,89 +651,28 @@ const products = [
   }
 ];
 
-/* Speicherung */
 
-const STORAGE_GIFTS = "babyGifts";
-const STORAGE_RESERVED = "babyReserved";
-const STORAGE_VERSION = "babyDesignV3";
+"use strict";
 
-let gifts = [];
+const SUPABASE_URL = "https://wwqdkdgbaetvxthtbawq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_HrHshisGtAIHfHpNtRV4HQ_15t5cYJB";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+let token = localStorage.getItem("babyReservationToken");
+
+if (!token) {
+  token = crypto.randomUUID();
+  localStorage.setItem("babyReservationToken", token);
+}
+
 let reserved = [];
-
-function loadData() {
-  try {
-    if (localStorage.getItem(STORAGE_VERSION) === "yes") {
-      const storedGifts = JSON.parse(localStorage.getItem(STORAGE_GIFTS) || "null");
-      const storedReserved = JSON.parse(localStorage.getItem(STORAGE_RESERVED) || "null");
-
-      if (Array.isArray(storedGifts) && Array.isArray(storedReserved)) {
-        gifts = storedGifts;
-        reserved = storedReserved.filter(id =>
-          gifts.some(g => g.id === id)
-        );
-        return;
-      }
-    }
-
-    // Bestehende Geschenkideen und Reservierungen übernehmen
-    const oldGifts = JSON.parse(localStorage.getItem(STORAGE_GIFTS) || "[]");
-    const oldReserved = JSON.parse(localStorage.getItem(STORAGE_RESERVED) || "[]");
-
-    const oldReservedNames = Array.isArray(oldGifts) && Array.isArray(oldReserved)
-      ? oldGifts.filter((g, i) => oldReserved.includes(i)).map(g => g.name)
-      : [];
-
-    const standardNames = [
-      "Kuscheldecke", "Babynest", "Spielbogen",
-      "Wickeltasche", "Babybett", "Kinderwagen"
-    ];
-
-    const custom = Array.isArray(oldGifts)
-      ? oldGifts.filter(g =>
-          g && g.name && !standardNames.includes(g.name) &&
-          !products.some(p => p.name === g.name)
-        ).map((g, i) => ({
-          ...g,
-          id: "custom-" + i + "-" + Date.now()
-        }))
-      : [];
-
-    gifts = [...products, ...custom];
-
-    reserved = gifts
-      .filter(g => oldReservedNames.includes(g.name))
-      .map(g => g.id);
-
-    saveData();
-  } catch (error) {
-    console.error("Fehler beim Laden:", error);
-    gifts = [...products];
-    reserved = [];
-  }
-}
-
-function saveData() {
-  try {
-    localStorage.setItem(STORAGE_GIFTS, JSON.stringify(gifts));
-    localStorage.setItem(STORAGE_RESERVED, JSON.stringify(reserved));
-    localStorage.setItem(STORAGE_VERSION, "yes");
-  } catch (error) {
-    showToast("Speichern nicht möglich. Bitte Speicherplatz prüfen.");
-  }
-}
-
-/* Sicherheit */
-
-function safeURL(value) {
-  try {
-    const url = new URL(value);
-    return ["https:", "http:"].includes(url.protocol)
-      ? url.href
-      : "";
-  } catch {
-    return "";
-  }
-}
+let myReservations = JSON.parse(
+  localStorage.getItem("myBabyReservations") || "[]"
+);
 
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -743,192 +684,135 @@ function escapeHTML(value) {
   })[char]);
 }
 
-/* Darstellung */
+function safeURL(value) {
+  try {
+    const url = new URL(value);
+    return ["https:", "http:"].includes(url.protocol)
+      ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+async function loadReservations() {
+  const { data, error } = await db.rpc("get_reserved_gifts");
+
+  if (error) {
+    showToast("Reservierungen konnten nicht geladen werden.");
+    return;
+  }
+
+  reserved = data.map(item => item.gift_id);
+  render();
+}
 
 function render() {
   const grid = document.getElementById("gifts");
-  const search = document.getElementById("search").value.toLowerCase().trim();
-  const category = document.getElementById("categoryFilter").value;
 
-  const filtered = gifts.filter(g => {
-    const matchesSearch =
-      [g.name, g.category, g.shop, g.note]
-        .some(value => String(value || "").toLowerCase().includes(search));
+  grid.innerHTML = products.map(g => {
+    const isReserved = reserved.includes(g.id);
+    const isMine = myReservations.includes(g.id);
 
-    return matchesSearch && (!category || g.category === category);
-  });
+    const image = safeURL(g.image);
+    const link = safeURL(g.url);
 
-  document.getElementById("counter").textContent =
-    `${filtered.length} Geschenkideen · ${reserved.length} reserviert`;
+    return `
+      <article class="card">
+        <div class="photo-wrap">
+          ${image
+            ? `<img class="photo" src="${escapeHTML(image)}"
+                alt="${escapeHTML(g.name)}" loading="lazy">`
+            : `<span class="no-image">♡</span>`
+          }
+        </div>
 
-  if (!filtered.length) {
-    grid.innerHTML = `
-      <div class="empty">
-        <div style="font-size:35px">🌸</div>
-        <p>Keine passenden Geschenkideen gefunden.</p>
-      </div>`;
-  } else {
-    grid.innerHTML = filtered.map(g => {
-      const isReserved = reserved.includes(g.id);
-      const image = safeURL(g.image);
-      const link = safeURL(g.url);
+        <div class="content">
+          <h3>${escapeHTML(g.name)}</h3>
+          <div class="shop">${escapeHTML(g.shop || "Geschenkidee")}</div>
 
-      return `
-        <article class="card">
-          <div class="photo-wrap">
-            ${image
-              ? `<img class="photo" src="${escapeHTML(image)}"
-                   alt="${escapeHTML(g.name)}" loading="lazy"
-                   onerror="this.remove();this.parentElement.insertAdjacentHTML('beforeend','<span class=no-image>♡</span>')">`
-              : `<span class="no-image">♡</span>`
-            }
+          ${g.note ? `<p class="note">${escapeHTML(g.note)}</p>` : ""}
+
+          <div class="status ${isReserved ? "reserved" : ""}">
+            ${isMine ? "♡ Von dir reserviert" :
+              isReserved ? "♡ Bereits reserviert" : "♡ Noch frei"}
           </div>
 
-          <div class="content">
-            <div class="category">${escapeHTML(g.category)}</div>
-            <h3>${escapeHTML(g.name)}</h3>
-            <div class="shop">${escapeHTML(g.shop || "Geschenkidee")}</div>
+          <div class="actions">
+            ${link ? `
+              <a class="btn shoplink" href="${escapeHTML(link)}"
+                target="_blank" rel="noopener noreferrer">
+                Im Shop ansehen ↗
+              </a>` : ""}
 
-            ${g.note ? `<p class="note">${escapeHTML(g.note)}</p>` : ""}
-
-            <div class="status ${isReserved ? "reserved" : ""}">
-              ${isReserved ? "♡ Bereits reserviert" : "♡ Noch frei"}
-            </div>
-
-            <div class="actions">
-              ${link ? `
-                <a class="btn shoplink" href="${escapeHTML(link)}"
-                   target="_blank" rel="noopener noreferrer">
-                  Im Shop ansehen ↗
-                </a>` : ""}
-
-              <button class="btn ${isReserved ? "release" : "reserve"}"
-                data-action="reserve" data-id="${escapeHTML(g.id)}">
-                ${isReserved ? "Reservierung aufheben" : "Geschenk reservieren"}
-              </button>
-            </div>
+            <button class="btn ${isMine ? "release" : "reserve"}"
+              data-id="${escapeHTML(g.id)}"
+              ${isReserved && !isMine ? "disabled" : ""}>
+              ${isMine ? "Reservierung aufheben" :
+                isReserved ? "Bereits vergeben" : "Geschenk reservieren"}
+            </button>
           </div>
-        </article>`;
-    }).join("");
+        </div>
+      </article>`;
+  }).join("");
+}
+
+async function toggleReservation(id) {
+  const isMine = myReservations.includes(id);
+
+  const { data, error } = await db.rpc(
+    isMine ? "release_gift" : "reserve_gift",
+    {
+      p_gift_id: id,
+      p_token: token
+    }
+  );
+
+  if (error) {
+    showToast("Fehler bei der Reservierung.");
+    return;
   }
 
-  renderManagement();
-}
+  if (!data) {
+    showToast("Dieser Artikel ist bereits reserviert.");
+    await loadReservations();
+    return;
+  }
 
-function renderManagement() {
-  document.getElementById("management").innerHTML = gifts.map(g => `
-    <div class="manage-item">
-      <span>${escapeHTML(g.name)}</span>
-      <button class="btn delete" data-action="delete"
-        data-id="${escapeHTML(g.id)}">
-        Löschen
-      </button>
-    </div>
-  `).join("");
-}
-
-/* Reservieren und Löschen */
-
-function toggleReserve(id) {
-  if (reserved.includes(id)) {
-    reserved = reserved.filter(x => x !== id);
+  if (isMine) {
+    myReservations = myReservations.filter(x => x !== id);
     showToast("Reservierung aufgehoben ♡");
   } else {
-    reserved.push(id);
-    showToast("Geschenk vorgemerkt ♡");
+    myReservations.push(id);
+    showToast("Geschenk erfolgreich reserviert ♡");
   }
 
-  saveData();
-  render();
+  localStorage.setItem(
+    "myBabyReservations",
+    JSON.stringify(myReservations)
+  );
+
+  await loadReservations();
 }
-
-function deleteGift(id) {
-  if (!confirm("Möchtest du dieses Geschenk wirklich löschen?")) return;
-
-  gifts = gifts.filter(g => g.id !== id);
-  reserved = reserved.filter(x => x !== id);
-
-  saveData();
-  render();
-  showToast("Geschenk gelöscht.");
-}
-
-/* Neues Geschenk hinzufügen */
-
-document.getElementById("giftForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const name = document.getElementById("newName").value.trim();
-  const category = document.getElementById("newCategory").value;
-  const url = safeURL(document.getElementById("newUrl").value.trim());
-  const imageInput = document.getElementById("newImage").value.trim();
-  const image = imageInput ? safeURL(imageInput) : "";
-  const note = document.getElementById("newNote").value.trim();
-
-  if (!name || !url) {
-    showToast("Bitte Name und gültigen Produktlink eingeben.");
-    return;
-  }
-
-  if (imageInput && !image) {
-    showToast("Bitte einen gültigen Bildlink eingeben.");
-    return;
-  }
-
-  gifts.push({
-    id: "custom-" + Date.now(),
-    name,
-    category,
-    url,
-    image,
-    note,
-    shop: "Geschenkidee"
-  });
-
-  saveData();
-  event.target.reset();
-  render();
-  showToast("Neue Geschenkidee hinzugefügt ♡");
-});
-
-/* Ereignisse */
 
 document.getElementById("gifts").addEventListener("click", event => {
-  const button = event.target.closest("button[data-action]");
-  if (!button) return;
-
-  if (button.dataset.action === "reserve") {
-    toggleReserve(button.dataset.id);
-  }
+  const button = event.target.closest("button[data-id]");
+  if (!button || button.disabled) return;
+  toggleReservation(button.dataset.id);
 });
-
-document.getElementById("management").addEventListener("click", event => {
-  const button = event.target.closest("button[data-action='delete']");
-  if (button) deleteGift(button.dataset.id);
-});
-
-document.getElementById("search").addEventListener("input", render);
-document.getElementById("categoryFilter").addEventListener("change", render);
-
-/* Rückmeldung */
-
-let toastTimeout;
 
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.style.display = "block";
 
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
+  clearTimeout(window.toastTimeout);
+  window.toastTimeout = setTimeout(() => {
     toast.style.display = "none";
   }, 2600);
 }
 
-/* Start */
-
-loadData();
-render();
+loadReservations();
+setInterval(loadReservations, 30000);
 
 </script>
 </body>
